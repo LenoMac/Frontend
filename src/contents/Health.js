@@ -1,9 +1,9 @@
 import React from 'react'
 
-export const LeftSide = () => {
+export const Health = () => {
   return (
     <div>
-        Menu and accounts
+        Health
     </div>
- )
+  )
 }
