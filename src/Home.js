@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import logo from './logo.png'
 import { useState, useEffect, useRef } from 'react'
 
-const Menu = ({ activeMenuItem, handleMenuItemCLick }) => {
+const Menu = ({ activeMenuItem, handleMenuItemCLick, setUser, user }) => {
   const [menuWidth, setMenuWidth] = useState(80);
   const [isContentVisible, setContentVisible] = useState(false);
   const [isLogoSize, setLogoSize] = useState(40);
@@ -50,9 +50,9 @@ const Menu = ({ activeMenuItem, handleMenuItemCLick }) => {
   }, [])
 
   const logout = () => {
-
     setTimeout(() => {
       navigate('/')
+      setUser(null)
     }, 1000)
   }
 
@@ -104,13 +104,13 @@ const Menu = ({ activeMenuItem, handleMenuItemCLick }) => {
 
         <div id='profile' className='flex flex-col gap-4 cursor-pointer'>
           <div onClick={openProfilePopup} className='flex gap-2'>
-            <div className='w-[35px] self-center'>
-              <img src='https://cdn-icons-png.flaticon.com/512/5968/5968743.png' alt='' className='w-full select-none' />
+            <div className='w-[35px] self-center rounded-full overflow-hidden'>
+              <img src={user.picture} alt='' className='w-full select-none' />
             </div>
             {isContentVisible &&
               <div className='flex flex-col self-center'>
-                <h3 className='text-black font-medium select-none'>Абдулхафиз Ж.</h3>
-                <small className='text-gray-400 text-[12px] select-none'>Веб-разработчик</small>
+                <h3 className='text-black font-medium select-none'>{user.given_name}</h3>
+                <small className='text-gray-400 text-[12px] select-none'>{user.family_name}</small>
               </div>
             }
           </div>
@@ -137,7 +137,7 @@ const Content = ({ activeMenuItem }) => {
 
 
 
-export const Home = () => {
+export const Home = ({setUser, user}) => {
 
   const [activeMenuItem, setActiveMenuItem] = useState('health')
 
@@ -147,7 +147,7 @@ export const Home = () => {
 
   return (
     <div className='w-full h-[100vh] flex'>
-      <Menu handleMenuItemCLick={handleMenuItemCLick} activeMenuItem={activeMenuItem} />
+      <Menu setUser={setUser} user={user} handleMenuItemCLick={handleMenuItemCLick} activeMenuItem={activeMenuItem} />
       <Content activeMenuItem={activeMenuItem} className={`w-full p-2 bg-red-600`} />
     </div>
   )

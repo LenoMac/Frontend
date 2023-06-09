@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { SignIn } from './SignIn'
 import { SignUp } from './SignUp'
 
-export const LoginField = () => {
+export const LoginField = ({ user, setUser }) => {
 
     const [isSignInOpen, setIsSignInOpen] = useState(true);
     const [isSignUpOpen, setIsSignUpOpen] = useState(false);
@@ -25,7 +25,7 @@ export const LoginField = () => {
             </div>
             {isSignInOpen ? (
                 <div className={`flex flex-col transition-colors flex-grow ${isSignInOpen ? 'opacity-100' : 'opacity-0'}`}>
-                    <SignIn />
+                    <SignIn setUser={setUser} user={user}/>
                     <p className='self-center mb-28 text-gray-500 text-[14px]'>Don't have an account? <span onClick={handleSignUpClick} className='text-black font-semibold cursor-pointer'>Sign up</span></p>
                 </div>
             ) : (
