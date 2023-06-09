@@ -30,7 +30,7 @@ export const LoginField = () => {
                 </div>
             ) : (
                 <div className={`flex flex-col transition-colors flex-grow ${isSignInOpen ? 'opacity-0' : 'opacity-100'}`}>
-                    <SignUp />
+                    <SignUp/>
                     <p className='self-center mb-[250px] text-gray-500 text-[14px]'>Already have an account? <span onClick={handleSignInClick} className='text-black font-semibold cursor-pointer'>Sign in</span></p>
                 </div>
             )}

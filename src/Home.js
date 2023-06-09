@@ -3,7 +3,7 @@ import { Health } from './contents/Health'
 import { Education } from './contents/Education'
 import { Vote } from './contents/Vote'
 import { Discuss } from './contents/Discuss'
-
+import { useNavigate } from 'react-router-dom'
 import logo from './logo.png'
 import { useState, useEffect, useRef } from 'react'
 
@@ -13,7 +13,7 @@ const Menu = ({ activeMenuItem, handleMenuItemCLick }) => {
   const [isLogoSize, setLogoSize] = useState(40);
   const [isPopupOpen, setPopupOpen] = useState(false);
   const popupRef = useRef(null)
-
+  const navigate = useNavigate();
 
   const firstClick = () => {
     setMenuWidth(menuWidth - 170);
@@ -50,7 +50,10 @@ const Menu = ({ activeMenuItem, handleMenuItemCLick }) => {
   }, [])
 
   const logout = () => {
-    alert()
+
+    setTimeout(() => {
+      navigate('/')
+    }, 1000)
   }
 
   return (
@@ -80,7 +83,7 @@ const Menu = ({ activeMenuItem, handleMenuItemCLick }) => {
                 <span><i className={`fa-solid fa-check-to-slot ${activeMenuItem === 'vote' ? 'text-[#24a472]' : 'text-gray-400'}`}></i></span> {isContentVisible && <p className={` font-medium ${activeMenuItem === 'vote' ? 'text-[#24a472]' : 'text-gray-400'}`}>Голосование</p>}
               </li>
               <li onClick={() => handleMenuItemCLick('discuss')} className={`flex gap-2 px-3 py-2 h-max rounded-md cursor-pointer hover:bg-[#D4E2DF] hover:text-[#24a472] ${activeMenuItem === 'discuss' ? 'bg-[#D4E2DF]' : 'bg-transparent'}`}>
-                <span><i className={`fa-solid fa-comment ${activeMenuItem === 'discuss' ? 'text-[#24a472]' : 'text-gray-400'}`}></i></span> {isContentVisible && <p className={`font-medium ${activeMenuItem === 'vote' ? 'text-[#24a472]' : 'text-gray-400'}`}>Обсуждение</p>}
+                <span><i className={`fa-solid fa-comment ${activeMenuItem === 'discuss' ? 'text-[#24a472]' : 'text-gray-400'}`}></i></span> {isContentVisible && <p className={`font-medium ${activeMenuItem === 'discuss' ? 'text-[#24a472]' : 'text-gray-400'}`}>Обсуждение</p>}
               </li>
             </ul>
           </div>
@@ -123,10 +126,10 @@ const Menu = ({ activeMenuItem, handleMenuItemCLick }) => {
 }
 
 const Content = ({ activeMenuItem }) => {
-  if(activeMenuItem === 'health') return <Health/>
-  else if(activeMenuItem === 'education') return <Education/>
-  else if (activeMenuItem === 'discuss') return <Discuss/>
-  else if (activeMenuItem === 'vote') return <Vote/>
+  if (activeMenuItem === 'health') return <Health />
+  else if (activeMenuItem === 'education') return <Education />
+  else if (activeMenuItem === 'discuss') return <Discuss />
+  else if (activeMenuItem === 'vote') return <Vote />
   else return null
 }
 
@@ -140,12 +143,12 @@ export const Home = () => {
 
   const handleMenuItemCLick = (menItem) => {
     setActiveMenuItem(menItem)
-}
+  }
 
   return (
     <div className='w-full h-[100vh] flex'>
-      <Menu handleMenuItemCLick={handleMenuItemCLick} activeMenuItem={activeMenuItem}/>
-      <Content activeMenuItem={activeMenuItem} className={`w-full p-2 bg-red-600`}/>
+      <Menu handleMenuItemCLick={handleMenuItemCLick} activeMenuItem={activeMenuItem} />
+      <Content activeMenuItem={activeMenuItem} className={`w-full p-2 bg-red-600`} />
     </div>
   )
 }

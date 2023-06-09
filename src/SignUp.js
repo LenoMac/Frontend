@@ -1,6 +1,5 @@
 import React from 'react'
-import logo from './logo.png'
-
+// import { logo } from './logo.png'
 
 export const SignUp = () => {
 
@@ -28,7 +27,7 @@ export const SignUp = () => {
             <div className='flex flex-col self-center gap-2'>
                 <div className='flex flex-col gap-2'>
                     <div className='w-[50px] self-center flex'>
-                        <img src={logo} alt='' />
+                        <img src={''} alt='' />
                     </div>
                     <h2 className='self-center text-[#24A472] text-[28px] font-semibold'>Create Your Account</h2>
                 </div>
