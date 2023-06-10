@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import logo from './logo.png'
-import googleImg from './google.png'
+// import googleImg from './google.png''
 import facebook from './facebook.png'
 import apple from './apple.png'
 import { useNavigate, Navigate } from 'react-router-dom'
@@ -8,27 +8,42 @@ import spinner from './snipper.png'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { GoogleLogin } from '@react-oauth/google';
 import jwtDecode from 'jwt-decode'
-export const SignIn = ({user, setUser}) => {
-    
+export const SignIn = ({ user, setUser }) => {
+
     const [isBtnAnimate, setBtnAnimate] = useState(false)
+    const [selectedFile, setSelectedFile] = useState(null)
+    const [isFocused, setFocused] = useState(false)
+    const [isValid, setValid] = useState(false)
+
     const navigate = useNavigate();
     const goToHome = () => {
         setBtnAnimate(true)
     }
-
-    const handleEmailChange = (event) => {
-        const label = document.getElementById('label')
-        label.style.transition = '0.3s'
-        if (event.target.value) {
-            label.style.cssText = 'transform: translate(0px, -18px); font-size: 12px; transition: 0.3s'
-        } else {
-            label.style.cssText = 'transform: translate(0px, 0px); font-size: 15px; transition: 0.3s'
+    const handle = (e) => {
+        if (e.target.id === 'input') {
+            alert()
+            const label1 = document.getElementById('label')
+            label1.style.cssText = 'transform: translate(0px, 0px); font-size: 15px; transition: 0.3s'
         }
+        // const input = document.getElementById('input')
+        // label.style.cssText = 'transform: translate(0px, -18px); font-size: 12px; transition: 0.3s; text-[#24a472]'
+        // label.style.transition = '0.3s'
+        // input.style.cssText = 'border-[#24a472]'
     }
+    const handleFocus = () => {
+        setFocused(true)
+    }  
 
+    const handleFileChange = (event) => {
+        const file = event.target.value
+        setSelectedFile(file)
+    }
+    const handleBlur = () => {
+        setFocused(false)
+    }
     return (
         <div className='flex flex-col p-8 h-[90vh] flex-grow self-center'>
-            <div className='flex flex-col self-center gap-2'>
+            <div className='flex flex-col self-center gap-5'>
                 <div className='flex flex-col gap-2'>
                     <div className='w-[50px] self-center flex'>
                         <img src={logo} alt='' />
@@ -37,8 +52,13 @@ export const SignIn = ({user, setUser}) => {
                 </div>
                 <div className='relative flex flex-col gap-4'>
                     <div className='relative self-center'>
-                        <label htmlFor='input' id='label' className='bg-white transition-colors px-1 cursor-text text-[#24A472] text-[15px] absolute left-[10px] top-[7px]'>Email address</label>
-                        <input onChange={handleEmailChange} id='input' type='text' autoComplete='off' className='text-[#1f1f1f] border-[#39d69a] border-[1px] px-2 py-[6px] self-center w-[320px] rounded-[5px] outline-none text-[16px]' />
+                        <label htmlFor='input' id='label'  className={`${isFocused || selectedFile ? 'translate-y-[-18px] transition-all text-[12px] text-[#24a472]' : 'translate-[0px, 0px] text-[15px] text-gray-400 '}  bg-white transition-all px-1 cursor-text absolute left-[10px] top-[7px]`}>Email address</label>
+                        <input onFocus={handleFocus} onChange={handleFileChange} onBlur={handleBlur} id='input' type='text' autoComplete='off' className={`${isFocused || selectedFile ? 'border-[#24a472]' : 'border-gray-300'} text-[#1f1f1f] border-[1px] px-2 py-[6px] self-center w-[320px] rounded-[5px] outline-none text-[16px] transition-colors`} />
+                    </div>
+ 
+                    <div className='relative self-center'>
+                        <label htmlFor='password' id='label' onClick={handle} className={`${isFocused || selectedFile ? 'translate-y-[-18px] transition-all text-[12px] text-[#24a472]' : 'translate-[0px, 0px] text-[15px] text-gray-400 '} bg-white transition-all px-1 cursor-text absolute left-[10px] top-[7px]`}>Password</label>
+                        <input id='password' type='password' autoComplete='off' className={`focus:border-[#24a472] text-[#1f1f1f] border-gray-300 border-[1px] px-2 py-[6px] self-center w-[320px] rounded-[5px] outline-none text-[16px] transition-colors`} />
                     </div>
                     {!isBtnAnimate ? (
                         <button onClick={goToHome} type='submit' className='bg-[#24a472] relative hover:bg-[#34bd88] transition-colors text-white self-center w-[320px] h-[36px] rounded-[5px] px-2 py-[6px]'>Continue</button>

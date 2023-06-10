@@ -19,7 +19,7 @@ export const LoginField = ({ user, setUser }) => {
     }
     return (
         <div className='w-full h-[100vh] flex overflow-y-hidden'>
-            <div className='w-[60%] h-[102vh] self-center overflow-hidden relative mb-2'>
+            <div id='blur' className='w-[60%] h-[102vh] self-center overflow-hidden relative mb-2'>
                 <img src={log_img} alt='' className='w-full' />
                 <h1 className='absolute bottom-6 left-6 z-10 text-[35px] text-white font-bold'>Виртуальное объединение для роста и развития!</h1>
             </div>
