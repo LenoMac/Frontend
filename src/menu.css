@@ -1,0 +1,16 @@
+#menu::-webkit-scrollbar,
+#spisok::-webkit-scrollbar{
+     width: 0;
+}
+
+select{
+     border: none;
+     appearance: none;
+     background-color: #9151f8;
+     color: white; 
+}
+
+select option:hover {
+     background-color: red;
+     color: white;
+}

@@ -3,37 +3,30 @@ import { Health } from './contents/Health'
 import { Education } from './contents/Education'
 import { Vote } from './contents/Vote'
 import { Discuss } from './contents/Discuss'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import logo from './logo.png'
 import { useState, useEffect, useRef } from 'react'
+import './menu.css'
+import { Family } from './contents/Family'
+import { CheckDoc } from './contents/CheckDoc'
+import { Panel } from './contents/Panel'
+import Guest from './guest.png'
 
-const Menu = ({ activeMenuItem, handleMenuItemCLick, setUser, user }) => {
-  const [menuWidth, setMenuWidth] = useState(80);
-  const [isContentVisible, setContentVisible] = useState(false);
-  const [isLogoSize, setLogoSize] = useState(40);
+const Menu = ({ dark, setDark, activeMenuItem, handleMenuItemCLick, setUser, user, data, setData }) => {
+
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [profilePopup, setProfilePopup] = useState(false)
   const popupRef = useRef(null)
   const navigate = useNavigate();
 
-  const firstClick = () => {
-    setMenuWidth(menuWidth - 170);
-    setContentVisible(false)
-    setLogoSize(isLogoSize - 20)
-    document.querySelectorAll('li').forEach((li) => {
-      li.style.width = 'max-content'
-    })
-  }
-  const secondClick = () => {
-    setMenuWidth(250);
-    setContentVisible(true);
-    setLogoSize(60);
-    document.querySelectorAll('li').forEach((li) => {
-      li.style.width = ''
-    })
-  }
+  
 
   const openProfilePopup = () => {
     setPopupOpen(!isPopupOpen);
+  }
+
+  const openProfile = () => {
+    setProfilePopup(true)
   }
 
   useEffect(() => {
@@ -48,98 +41,174 @@ const Menu = ({ activeMenuItem, handleMenuItemCLick, setUser, user }) => {
       document.removeEventListener('mousedown', handleOutsideClick);
     };
   }, [])
-
   const logout = () => {
     setTimeout(() => {
       navigate('/')
       setUser(null)
+      setData({})
     }, 1000)
+  }
+  const [isHealth, setHealth] = useState(false)
+  const [isEdu, setEdu] = useState(false)
+  const [isVote, setVote] = useState(false)
+  const [isDiscuss, setDiscuss] = useState(false)
+
+  const showHelth = () => { setHealth(true) }
+  const showEducation = () => { setEdu(true) }
+  const showVote = () => { setVote(true) }
+  const showDiscuss = () => { setDiscuss(true) }
+
+  const handleToggleTheme = () => {
+    alert()
   }
 
   return (
-    <div style={{ width: menuWidth }} className='relative bg-[#EFEFEF] w-[250px] h-[100vh]  transition-all ease-in-out'>
-      <div className='p-5 flex flex-col justify-between h-full overflow-hidden'>
-        <div id='logo' className='flex justify-between'>
-          <div style={{ width: isLogoSize }} className='self-center cursor-pointer'>
-            <img src={logo} alt='' className='w-full self-center cursor-pointer' />
-          </div>
-          {isContentVisible ?
-            (<span onClick={firstClick} className='cursor-pointer absolute shadow-lg shadow-gray-300 left-[95%] bg-[#24a472] text-white px-[9px] rounded-full self-center'><i class="fa-solid fa-chevron-left text-[10px] self-center"></i></span>)
-            : (<span onClick={secondClick} className='cursor-pointer absolute shadow-lg shadow-gray-300 left-[83%] bg-[#24a472] text-white px-[9px] rounded-full self-center'><i class="fa-solid fa-chevron-right text-[10px] self-center"></i></span>)
-          }
-        </div>
+    <div className='relative bg-[#fff] min-w-[230px] w-[230px] h-[100vh] border-r-[0.5px] flex flex-col justify-between'>
 
-        <div className='flex flex-col'>
-          <div className='flex flex-col gap-4'>
-            {isContentVisible && <small className='text-gray-500 text-[14px] font-medium'>Услуги</small>}
-            <ul className='flex flex-col gap-4 select-none'>
-              <li onClick={() => handleMenuItemCLick('health')} className={`${activeMenuItem === 'health' ? 'bg-[#D4E2DF]' : 'bg-transparent'}  flex gap-2 px-3 py-2 h-max rounded-md cursor-pointer hover:bg-[#D4E2DF] hover:text-[#24a472]`}>
-                <span><i className={`fa-solid fa-kit-medical ${activeMenuItem === 'health' ? 'text-[#24a472]' : 'text-gray-400'}`}></i></span>{isContentVisible && <p className={`text-[#24a472] font-medium ${activeMenuItem === 'health' ? 'text-[#24a472]' : 'text-gray-400'}`}>Здоровье</p>}
+      {/* SIDE  BAR */}
+      <div className='flex flex-col gap-2 max-h-[80vh] h-full'>
+        {/* LOGO */}
+        <div id='logo' className='flex w-full self-center py-3 border-b-[0.5px]'>
+          <div className='w-full flex justify-center cursor-pointer'>
+            <img src={logo} alt='' className='w-[50px] self-center cursor-pointer' />
+            {/* <h2 className='text-[#a057f3] font-bold text-[20px]'>eCommunity</h2> */}
+          </div>
+        </div>
+        <div className='flex flex-col gap-5 pl-3 '>
+          <div className='flex flex-col'>
+            <small className='text-gray-500 text-[13px] select-none font-medium'>ГЛАВНАЯ</small>
+            <ul className='select-none'>
+              <li onClick={() => handleMenuItemCLick('panel')} className={`${activeMenuItem === 'panel' ? 'bg-[#ece8ff]' : 'bg-transparent'} flex gap-[10px]  hover:bg-[#ece8ff] transition-all p-2 h-max cursor-pointer`}>
+                <span className='self-center ml-[5px]'><i className="fa-solid fa-layer-group text-[18px] text-[#9151f8]"></i></span><p className='text-[#888]'>Панель</p>
               </li>
-              <li onClick={() => handleMenuItemCLick('education')} className={`flex gap-2 px-3 py-2 h-max rounded-md cursor-pointer hover:bg-[#D4E2DF] ${activeMenuItem === 'education' ? 'bg-[#D4E2DF]' : 'bg-transparent'}`}>
-                <span><i className={`fa-solid fa-graduation-cap ${activeMenuItem === 'education' ? 'text-[#24a472]' : 'text-gray-400'}`}></i></span>{isContentVisible && <p className={`font-medium ${activeMenuItem === 'education' ? 'text-[#24a472]' : 'text-gray-400'}`}>Образование</p>}
+            </ul>
+          </div>
+          <div className='flex flex-col gap-1'>
+            <small className='text-gray-500 text-[13px] font-medium'>ГОСУСЛУГИ</small>
+            <ul className='flex flex-col gap-1 select-none'>
+
+              <li onClick={() => handleMenuItemCLick('health')} className={`${activeMenuItem === 'health' ? 'bg-[#ece8ff]' : 'bg-transparent'} flex gap-[10px]  hover:bg-[#ece8ff] transition-all p-2 h-max cursor-pointer`}>
+                <span className='self-center ml-[5px]'><i className='fa-solid fa-kit-medical text-[18px] text-[#9151f8]'></i></span><p className='text-[#888]  text-[15px] font-medium'>Здоровье</p>
               </li>
-              <li onClick={() => handleMenuItemCLick('vote')} className={`flex gap-2 px-3 py-2 h-max rounded-md cursor-pointer hover:bg-[#D4E2DF] hover:text-[#24a472] ${activeMenuItem === 'vote' ? 'bg-[#D4E2DF]' : 'bg-transparent'}`}>
-                <span><i className={`fa-solid fa-check-to-slot ${activeMenuItem === 'vote' ? 'text-[#24a472]' : 'text-gray-400'}`}></i></span> {isContentVisible && <p className={` font-medium ${activeMenuItem === 'vote' ? 'text-[#24a472]' : 'text-gray-400'}`}>Голосование</p>}
+              <li onClick={() => handleMenuItemCLick('education')} className={`${activeMenuItem === 'education' ? 'bg-[#ece8ff]' : 'bg-transparent'} flex gap-[7px] hover:bg-[#ece8ff] transition-all  p-2 h-max cursor-pointer`}>
+                <span className='self-center ml-[5px]'><i className='fa-solid fa-graduation-cap text-[18px] text-[#9151f8]'></i></span><p className='text-[#888]  text-[15px] font-medium'>Образование</p>
               </li>
-              <li onClick={() => handleMenuItemCLick('discuss')} className={`flex gap-2 px-3 py-2 h-max rounded-md cursor-pointer hover:bg-[#D4E2DF] hover:text-[#24a472] ${activeMenuItem === 'discuss' ? 'bg-[#D4E2DF]' : 'bg-transparent'}`}>
-                <span><i className={`fa-solid fa-comment ${activeMenuItem === 'discuss' ? 'text-[#24a472]' : 'text-gray-400'}`}></i></span> {isContentVisible && <p className={`font-medium ${activeMenuItem === 'discuss' ? 'text-[#24a472]' : 'text-gray-400'}`}>Обсуждение</p>}
+              <li onClick={() => handleMenuItemCLick('family')} className={`${activeMenuItem === 'family' ? 'bg-[#ece8ff]' : 'bg-transparent'} flex gap-[10px] hover:bg-[#ece8ff] transition-all  p-2 h-max cursor-pointer`}>
+                <span className='self-center ml-[5px]'><i class="fa-solid fa-house text-[18px] text-[#9151f8]"></i></span><p className='text-[#888]  text-[15px] font-medium'>Семья</p>
+              </li>
+              <li onClick={() => handleMenuItemCLick('discuss')} className={`${activeMenuItem === 'discuss' ? 'bg-[#ece8ff]' : 'bg-transparent'} flex gap-[12px] hover:bg-[#ece8ff] transition-all  px-2 py-2 h-max cursor-pointer`}>
+                <span className='self-center ml-[5px]'><i className='fa-solid fa-comment text-[18px] text-[#9151f8]'></i></span><p className='text-[#888]  text-[15px] font-medium'>Обсуждение</p>
+              </li>
+              <li onClick={() => handleMenuItemCLick('checkDoc')} className={`${activeMenuItem === 'checkDoc' ? 'bg-[#ece8ff]' : 'bg-transparent'} flex gap-[14px] hover:bg-[#ece8ff] transition-all  px-2 py-2 h-max cursor-pointer`}>
+                <span className='self-center ml-[8px]'><i className='fa-solid fa-file text-[18px] text-[#9151f8]'></i></span><p className='text-[#888]  text-[15px] font-medium'>Проверка документа</p>
+              </li>
+              <li onClick={() => handleMenuItemCLick('all')} className={`${activeMenuItem === 'all' ? 'bg-[#ece8ff]' : 'bg-transparent'} flex gap-3 hover:bg-[#ece8ff] transition-all  px-2 py-2 h-max cursor-pointer`}>
+                <span className='self-center ml-[8px]'><i className="fa-solid fa-border-all text-[18px] text-[#9151f8]"></i></span><p className='text-[#888]  text-[15px] font-medium'>Все</p>
               </li>
             </ul>
           </div>
         </div>
-
-        {!isContentVisible && <span className='absolute top-[55%] w-[40px] m-auto h-[2px] bg-gray-300'></span>}
-        <div className='flex flex-col gap-4'>
-          {isContentVisible && <small className='text-gray-500 text-[14px] font-medium '>Настройки</small>}
-          <ul className='flex flex-col gap-4'>
-            <li className='flex gap-2 px-3 py-2 bg-transparent h-max rounded-md cursor-pointer hover:bg-[#D4E2DF] hover:text-[#24a472]'>
-              <span><i class="fa-solid fa-check-to-slot text-gray-400"></i></span> {isContentVisible && <p className='text-gray-400 font-medium'>Голосование</p>}
-            </li>
-            <li className='flex gap-2 px-3 py-2 bg-transparent h-max rounded-md cursor-pointer hover:bg-[#D4E2DF] hover:text-[#24a472]'>
-              <span><i class="fa-solid fa-comment text-gray-400"></i></span> {isContentVisible && <p className='text-gray-400 font-medium'>Обсуждение</p>}
+        <div className='flex flex-col gap-1 pl-3'>
+          <small className='text-gray-500 text-[14px] font-medium'>ГОСОРГАНЫ</small>
+          <ul>
+            <li onClick={() => handleMenuItemCLick('all-organs')} className={`${activeMenuItem === 'all-organs' ? 'bg-[#ece8ff]' : 'bg-transparent'} flex gap-[12px] hover:bg-[#ece8ff] transition-all  px-2 py-2 h-max cursor-pointer`}>
+              <span className='self-center ml-[8px]'><i className="fa-solid fa-border-all text-[18px] text-[#9151f8]"></i></span><p className='text-[#888]  text-[15px] font-medium'>Все</p>
             </li>
           </ul>
         </div>
-
-        <div id='profile' className='flex flex-col gap-4 cursor-pointer'>
-          <div onClick={openProfilePopup} className='flex gap-2'>
-            <div className='w-[35px] self-center rounded-full overflow-hidden'>
-              <img src={user.picture} alt='' className='w-full select-none' />
-            </div>
-            {isContentVisible &&
-              <div className='flex flex-col self-center'>
-                <h3 className='text-black font-medium select-none'>{user.given_name}</h3>
-                <small className='text-gray-400 text-[12px] select-none'>{user.family_name}</small>
-              </div>
-            }
-          </div>
-
-          {isPopupOpen ? (<div ref={popupRef} className='overflow-hidden flex flex-col gap-[4px] bg-white shadow-lg shadow-gray-500/20 p-2 w-[200px] rounded-md absolute bottom-16 cursor-pointer justify-between'>
-            <span onClick={logout} className='w-full flex gap-2 rounded-[4px] p-1'><i class="fa-solid fa-right-from-bracket text-[#24a472] self-center"></i><small className='text-[#24a472] self-center text-[15px] font-medium'>Выйти</small></span>
-            <p className='hover:text-[#24a472] text-gray-500 text-[15px] w-full p-1 rounded-[4px] font-medium'>Профиль</p>
-          </div>) : ('')}
+        <div className='flex flex-col gap-1 pl-3'>
+          <small className='text-gray-500 text-[14px] font-medium'>ТЕМЫ</small>
+          <ul className='flex gap-2'>
+            <li onClick={() => setDark(false)} className='w-[22px] h-[22px] ml-[6px] rounded-[5px] cursor-pointer border-[0.5px] border-[#9151f8] bg-white'></li>
+            <li onClick={() => setDark(true)} className='w-[22px] h-[22px] rounded-[5px] cursor-pointer bg-[#333]'></li>
+          </ul>
         </div>
+      </div>
+
+      {user && data ? (
+        <div id='profile' className='flex flex-col gap-4 p-4 cursor-pointer border-t-[0.5px]'>
+          <div onClick={openProfilePopup} className='flex justify-between'>
+            <div className='flex gap-2'>
+              <div className='w-[35px] self-center rounded-full overflow-hidden'>
+                <img src={user === null ? Guest : user.picture} alt='' className='w-full select-none' />
+              </div>
+              <div className='flex flex-col self-center'>
+                <h3 className='text-black font-medium select-none'>{user === null ? data.firstName : user.given_name}</h3>
+                <small className='text-gray-400 text-[12px] select-none'>{user === null ? data.lastName : user.family_name}</small>
+              </div>
+            </div>
+            <span className='self-center text-[#959595]'><i className="fa-solid fa-ellipsis"></i></span>
+          </div>
+          <div ref={popupRef} className={`${!isPopupOpen ? 'opacity-0 z-[-1]' : 'opacity-1 z-10'} w-[200px] bg-white overflow-hidden flex flex-col gap-[4px] shadow-lg shadow-gray-500/20  rounded-md absolute bottom-16 cursor-pointer justify-between transition-all `}>
+            <span onClick={logout} className='w-full flex gap-2 rounded-[4px] px-3 pt-3'><i class="fa-solid fa-right-from-bracket text-[#9151f8] self-center"></i><small className='text-[#9151f8] self-center text-[15px] font-medium'>Выйти</small></span>
+            <p onClick={openProfile} className='hover:text-[#9151f8] text-gray-500 text-[15px] w-full px-3 pb-3 rounded-[4px] font-medium'>Профиль</p>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
+    </div>
+  )
+}
+
+
+
+
+
+const Content = ({ activeMenuItem, user }) => {
+
+
+  
+
+  if (activeMenuItem === 'health') return <Health user={user}/>
+  else if (activeMenuItem === 'panel') return <Panel />
+  else if (activeMenuItem === 'education') return <Education />
+  else if (activeMenuItem === 'discuss') return <Discuss />
+  else if (activeMenuItem === 'vote') return <Vote />
+  else if (activeMenuItem === 'family') return <Family />
+  else if (activeMenuItem === 'checkDoc') return <CheckDoc />
+  else return null
+}
+
+
+const Navbar = ({ user }) => {
+
+  const navigate = useNavigate()
+  const goToLogin = () => {
+    setTimeout(() => {
+      navigate('Login')
+    }, 1000)
+  }
+  return (
+    <div className='border-b-[0.5px] flex justify-between p-[13px]'>
+      <div className='bg-transparent self-center flex gap-1 border-[0.5px] px-[6px]'>
+        <input placeholder='Поиск' className='self-center outline-none border-none' />
+        <i className="fa-solid fa-magnifying-glass text-[16px] text-gray-400 self-center"></i>
+      </div>
+      <div className='self-center flex gap-5'>
+        {/* <div className='absolute width-[100px] h-[50px] bg-red-600'></div> */}
+        {user === null ? (
+          <div onClick={goToLogin} className='flex self-center gap-1 cursor-pointer rounded-md p-[2px] text-orange-600'><span><i class="fa-solid fa-right-to-bracket"></i></span><p className='font-semibold self-center'>Войти</p></div>
+        ) : (<></>)}
+        <span className='self-center text-[#9151f8] text-[18px]'><i class="fa-solid fa-moon"></i></span>
+        <div className='flex gap-1 cursor-pointer bg-[#9151f8] pl-[5px] rounded-[3px]'>
+          <i className="fa-solid fa-globe self-center bg-[#9151f8] text-white"></i>
+          <select className='focus:outline-none' id="lang">
+            <option className='' value="rus">Русский</option>
+            <option className='' value="eng">English</option>
+            <option className='' value="kg">Кыргызча</option>
+          </select>
+        </div>
+        <span className='flex cursor-pointer self-center'><i className="fa-solid fa-gear self-center text-[#9151f8]"></i></span>
       </div>
     </div>
   )
 }
 
-const Content = ({ activeMenuItem }) => {
-  if (activeMenuItem === 'health') return <Health />
-  else if (activeMenuItem === 'education') return <Education />
-  else if (activeMenuItem === 'discuss') return <Discuss />
-  else if (activeMenuItem === 'vote') return <Vote />
-  else return null
-}
 
+export const Home = ({ dark, setDark, setUser, user, data, setData }) => {
 
-
-
-
-export const Home = ({setUser, user}) => {
-
-  const [activeMenuItem, setActiveMenuItem] = useState('health')
+  const [activeMenuItem, setActiveMenuItem] = useState('panel')
 
   const handleMenuItemCLick = (menItem) => {
     setActiveMenuItem(menItem)
@@ -147,8 +216,11 @@ export const Home = ({setUser, user}) => {
 
   return (
     <div className='w-full h-[100vh] flex'>
-      <Menu setUser={setUser} user={user} handleMenuItemCLick={handleMenuItemCLick} activeMenuItem={activeMenuItem} />
-      <Content activeMenuItem={activeMenuItem} className={`w-full p-2 bg-red-600`} />
+      <Menu dark={dark} setDark={setDark} data={data} setData={setData} setUser={setUser} user={user} handleMenuItemCLick={handleMenuItemCLick} activeMenuItem={activeMenuItem} />
+      <div className='flex flex-col w-full'>
+        <Navbar user={user} />
+        <Content user={user} activeMenuItem={activeMenuItem} className={`w-full p-2 bg-red-600`} />
+      </div>
     </div>
   )
 }

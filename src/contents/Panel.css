@@ -1,0 +1,95 @@
+#circular_progress{
+    position: relative;
+    height: 190px;
+    width: 190px;
+    border-radius: 50%;
+    background: conic-gradient(#9151f8 3.6deg, #ededed 0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: complete 3s forwards;
+    transition: 1s;
+}
+
+#circular_progress::after{
+    content: '';
+    position: absolute;
+    height: 150px;
+    width: 150px;
+    background: white;
+    border-radius: 50%;
+
+}
+
+
+@keyframes complete {
+    0%{
+        background: conic-gradient(#9151f8 3.6deg, #ededed 0deg);
+    }
+    5%{
+        background: conic-gradient(#9151f8 40deg, #ededed 0deg);
+    }
+    10%{
+
+    }
+    15%{
+
+    }
+    20%{
+        
+    }
+    25%{
+
+    }
+    30%{
+
+    }
+    35%{
+
+    }
+    40%{
+
+    }
+    45%{
+
+    }
+    50%{
+
+    }
+    55%{
+
+    }
+    60%{
+
+    }
+    65%{
+
+    }
+    70%{
+
+    }
+    75%{
+
+    }
+    80%{
+
+    }
+    85%{
+
+    }
+    90%{
+
+    }
+    95%{
+
+    }
+    100% {
+        background: conic-gradient(#9151f8 280deg, #ededed 0deg);
+    }
+}
+
+
+#info::-webkit-scrollbar{
+    width: 0;
+    height: 0;
+}

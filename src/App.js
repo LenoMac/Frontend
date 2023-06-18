@@ -1,11 +1,13 @@
 import React from 'react'
-// import { BrowserRouter as Router, Route } from 'react-router-dom'
+import './Dark.css'
 import { Login } from './Login';
+import { useState } from 'react';
 
 function App(){
+  const [dark, setDark] = useState(false)
   return (
-    <div className='w-full h-full'>
-      <Login/>
+    <div id={dark && 'id'} className='w-full h-full'>
+      <Login dark={dark} setDark={setDark}/>
     </div>
   )
 }

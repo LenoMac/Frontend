@@ -1,0 +1,30 @@
+<i class="fa-solid fa-xmark"></i>
+<i class="fa-solid fa-bars"></i>
+<i class="fa-solid fa-user"></i>
+<i class="fa-solid fa-check"></i>
+<i class="fa-solid fa-bookmark"></i>
+
+
+
+
+funtion onSubmit() => {
+
+    let login = input.value,
+        password = input.value,
+        isBlock = input.ref
+
+    if(data[0].login === login && data[0].password === password)
+
+    data.map((item) => {
+        if(item.login === login && item.password === password){
+            if(isBlock === true){
+                <!-- show SMTH -->
+            }
+            
+        }
+
+    })
+
+
+
+}
